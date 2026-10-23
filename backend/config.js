@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
+//congif paths
+
 function loadEnvFile(file) {
   try {
     const text = fs.readFileSync(file, "utf8");
@@ -11,7 +13,10 @@ function loadEnvFile(file) {
       if (eq < 0) return;
       const key = trimmed.slice(0, eq).trim();
       let value = trimmed.slice(eq + 1).trim();
-      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
         value = value.slice(1, -1);
       }
       if (process.env[key] === undefined) process.env[key] = value;
@@ -32,7 +37,15 @@ module.exports = {
   requestDays: 3,
   bundleDiscount: 40,
   passSecret: 7919,
-  locations: ["Library", "Hostel Gate", "Canteen", "Main Gate", "Hostel Block A", "Hostel Block B", "Department Lobby"],
+  locations: [
+    "Library",
+    "Hostel Gate",
+    "Canteen",
+    "Main Gate",
+    "Hostel Block A",
+    "Hostel Block B",
+    "Department Lobby",
+  ],
   conditions: ["NEW", "GOOD", "FAIR", "POOR"],
   reportReasons: ["FAKE", "INAPPROPRIATE", "WRONG_INFO", "SPAM", "OTHER"],
   // Comma-separated frontend origins when the SPA is deployed separately.
@@ -42,7 +55,9 @@ module.exports = {
     .map((value) => value.trim())
     .filter(Boolean),
   // Secure cookies require HTTPS. Render sets NODE_ENV=production.
-  secureCookies: process.env.NODE_ENV === "production" || String(process.env.COOKIE_SECURE || "").toLowerCase() === "true",
+  secureCookies:
+    process.env.NODE_ENV === "production" ||
+    String(process.env.COOKIE_SECURE || "").toLowerCase() === "true",
   // Optional SMTP settings. Leave SMTP_HOST empty to disable e-mail notifications.
   smtp: {
     host: process.env.SMTP_HOST || "",
